@@ -6,30 +6,33 @@
 import SwiftUI
 
 struct OnboardingView: View {
-  @StateObject private var onboardingViewModel = OnboardingViewModel()
-  @StateObject private var pathModel = PathModel()
-  
-  var body: some View {
-    // TODO -- 화면 전환 구현 필요
-      NavigationStack(path: $pathModel.paths) {
-          OnboardingContentView(onboardingViewModel: onboardingViewModel)
-              .navigationDestination(for: PathType.self, destination: {
-                  PathType in
-                  switch PathType {
-                  case .homeView:
-                      HomeView()
-                          .navigationBarBackButtonHidden()
-                  case .todoView:
-                          TodoView()
-                          .navigationBarBackButtonHidden()
-                  case .memoView:
-                      MemoView()
-                          .navigationBarBackButtonHidden()
-                  }
-              })
-      }
-      .environmentObject(pathModel)
-  }
+    @StateObject private var onboardingViewModel = OnboardingViewModel()
+    @StateObject private var pathModel = PathModel()
+    @StateObject private var todoListViewModel = TodoViewModel()
+    
+    
+    var body: some View {
+        // TODO -- 화면 전환 구현 필요
+        NavigationStack(path: $pathModel.paths) {
+            OnboardingContentView(onboardingViewModel: onboardingViewModel)
+                .navigationDestination(for: PathType.self, destination: {
+                    PathType in
+                    switch PathType {
+                    case .homeView:
+                        HomeView()
+                            .navigationBarBackButtonHidden()
+                    case .todoView:
+                        TodoView()
+                            .navigationBarBackButtonHidden()
+                            .environmentObject(todoListViewModel)
+                    case .memoView:
+                        MemoView()
+                            .navigationBarBackButtonHidden()
+                    }
+                })
+        }
+        .environmentObject(pathModel)
+    }
 }
 
 // MARK: - 온보딩 컨텐츠 뷰
@@ -143,7 +146,7 @@ private struct StartBtnView: View {
 }
 
 struct OnboardingView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingView()
-  }
+    static var previews: some View {
+        OnboardingView()
+    }
 }

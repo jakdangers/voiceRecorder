@@ -14,17 +14,18 @@ struct TodoListView: View {
             // 투두 셀 리스트
             VStack {
                 if !todoListViewModel.todos.isEmpty {
-                    CustomNavigationBar(
-                        isDisplayLeftBtn: false,
-                        rightBtnAction: {
-                            todoListViewModel.navigationRightBtnTapped()
-                        },
-                        rightBtntype: todoListViewModel.navigationBarRightBtnMode
-                    )
+                  CustomNavigationBar(
+                    isDisplayLeftBtn: false,
+                    rightBtnAction: {
+                      todoListViewModel.navigationRightBtnTapped()
+                    },
+                    rightBtnType: todoListViewModel.navigationBarRightBtnMode
+                  )
                 } else {
-                    Spacer()
-                        .frame(height: 30)
+                  Spacer()
+                    .frame(height: 30)
                 }
+
                 
                 TitleView()
                     .padding(.top, 20)
@@ -147,6 +148,7 @@ private struct TodoCellView: View {
                     Text(todo.title)
                         .font(.system(size: 16))
                         .foregroundColor(todo.selected ? .customIconGray : .customBlack)
+                        .strikethrough(todo.selected)
                     
                     Text(todo.convertedDayAndTime)
                         .font(.system(size: 16))
